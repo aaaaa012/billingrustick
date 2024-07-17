@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Details{% endblock %}
+
+{% block content %}
+    <h2>Purchase and Sales Details</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Purchase Date</th>
+                <th>Sales Date</th>
+                <th>Days to Sale</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detail in details %}
+            <tr>
+                <td>{{ detail.purchase.product_name }}</td>
+                <td>{{ detail.purchase.purchase_date.strftime('%Y-%m-%d') }}</td>
+                <td>
+                    {% if detail.sales %}
+                        {{ detail.sales[0].sale_date.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        No Sales Yet
+                    {% endif %}
+                </td>
+                <td>
+                    {% if detail.sales %}
+                        {{ detail.days_diff if detail.days_diff is not none else '-' }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No data available</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

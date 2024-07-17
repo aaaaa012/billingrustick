@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block title %}Sales{% endblock %}
+{% block content %}
+    <h2>Sales</h2>
+    <form id="sales-form" method="POST" action="/sales">
+        <div class="form-group">
+            <label for="product_name">Product Name</label>
+            <input type="text" class="form-control" id="product_name" name="product_name" required>
+        </div>
+        <div class="form-group">
+            <label for="unit">Unit</label>
+            <input type="text" class="form-control" id="unit" name="unit" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" required>
+        </div>
+        <div class="form-group">
+            <label for="sale_date">Sale Date</label>
+            <input type="date" class="form-control" id="sale_date" name="sale_date" required>
+        </div>
+        <div class="form-group">
+            <label for="unit_price">Unit Price</label>
+            <input type="number" step="0.01" class="form-control" id="unit_price" name="unit_price" required>
+        </div>
+        <div class="form-group">
+            <label for="total_price">Total Sales Price</label>
+            <input type="number" step="0.01" class="form-control" id="total_price" name="total_price" required readonly>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const unitPriceInput = document.getElementById('unit_price');
+            const totalPriceInput = document.getElementById('total_price');
+
+            function calculateTotalPrice() {
+                const quantity = parseFloat(quantityInput.value);
+                const unitPrice = parseFloat(unitPriceInput.value);
+                if (!isNaN(quantity) && !isNaN(unitPrice)) {
+                    totalPriceInput.value = (quantity * unitPrice).toFixed(2);
+                }
+            }
+
+            quantityInput.addEventListener('input', calculateTotalPrice);
+            unitPriceInput.addEventListener('input', calculateTotalPrice);
+        });
+    </script>
+{% endblock %}

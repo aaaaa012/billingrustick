@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+{% block title %}Purchase{% endblock %}
+{% block content %}
+    <h2>Purchase</h2>
+    <form id="purchase-form" method="POST" action="/purchase">
+        <div class="form-group">
+            <label for="product_name">Product Name</label>
+            <input type="text" class="form-control" id="product_name" name="product_name" required>
+        </div>
+        <div class="form-group">
+            <label for="unit">Unit</label>
+            <input type="text" class="form-control" id="unit" name="unit" required>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Purchase Quantity</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" required>
+        </div>
+        <div class="form-group">
+            <label for="purchase_date">Purchase Date</label>
+            <input type="date" class="form-control" id="purchase_date" name="purchase_date" required>
+        </div>
+        <div class="form-group">
+            <label for="vendor">Vendor</label>
+            <input type="text" class="form-control" id="vendor" name="vendor" required>
+        </div>
+        <div class="form-group">
+            <label for="per_unit_price">Per Unit Price</label>
+            <input type="number" class="form-control" id="per_unit_price" name="per_unit_price" step="0.01" readonly>
+        </div>
+        <div class="form-group">
+            <label for="purchase_price">Total Purchase Price</label>
+            <input type="number" class="form-control" id="purchase_price" name="purchase_price" required>
+        </div>
+        <div class="form-group">
+            <label for="payment_mode">Payment Mode</label>
+            <input type="text" class="form-control" id="payment_mode" name="payment_mode" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('quantity').addEventListener('input', calculatePerUnitPrice);
+        document.getElementById('purchase_price').addEventListener('input', calculatePerUnitPrice);
+
+        function calculatePerUnitPrice() {
+            var quantity = parseFloat(document.getElementById('quantity').value);
+            var totalPurchasePrice = parseFloat(document.getElementById('purchase_price').value);
+            var perUnitPriceField = document.getElementById('per_unit_price');
+
+            if (!isNaN(quantity) && !isNaN(totalPurchasePrice) && quantity > 0) {
+                var perUnitPrice = totalPurchasePrice / quantity;
+                perUnitPriceField.value = perUnitPrice.toFixed(2);
+            } else {
+                perUnitPriceField.value = '';
+            }
+        }
+    </script>
+{% endblock %}
