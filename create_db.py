@@ -1,6 +1,11 @@
-from app import app
-from extensions import db
+from app import create_app, db
 
-with app.app_context():
-    db.create_all()
-    print("Database tables created.")
+def main():
+    app = create_app()  # Initialize your Flask application
+
+    with app.app_context():  # Use the application context
+        db.create_all()  # Create tables defined in your models
+        print("Tables created successfully")
+
+if __name__ == "__main__":
+    main()
